@@ -1,0 +1,101 @@
+package net.togogo.egou.core.service.product.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import net.togogo.egou.common.utils.PageController;
+import net.togogo.egou.core.dao.product.BrandDao;
+import net.togogo.egou.core.dao.product.FeatureDao;
+import net.togogo.egou.core.dao.product.ImgDao;
+import net.togogo.egou.core.dao.product.ProductDao;
+import net.togogo.egou.core.dao.type.TypeDao;
+import net.togogo.egou.core.domain.product.Img;
+import net.togogo.egou.core.domain.product.Product;
+import net.togogo.egou.core.service.product.ProductService;
+
+import org.springframework.stereotype.Service;
+
+@Service(value = "productService")
+public class ProductServiceImpl implements ProductService {
+
+	@Resource
+	private ProductDao productDao;
+	@Resource
+	private ImgDao imgDao;
+	@Resource
+	private BrandDao brandDao;
+	@Resource
+	private FeatureDao featureDao;
+	@Resource
+	private TypeDao typeDao;
+
+	@Override
+	public List<?> findProductRecord(Map<String, Object> maps, PageController pageController) {
+		int startRecord = pageController.getPageStartRow();
+		int record = pageController.getPageSize();
+		if (null == maps) {
+			maps = new HashMap<String, Object>();
+		}
+		maps.put("startRecord", startRecord);
+		maps.put("record", record);
+		return productDao.findRecord(maps);
+	}
+	
+	@Override
+	public List<?> findFeatureRecord(Map<String, Object> maps, PageController pageController) {
+		return featureDao.findRecord(maps);
+	}
+	@Override
+	public List<?> findTypeRecord(Map<String, Object> maps, PageController pageController) {
+		return typeDao.findRecord(maps);
+	}
+	@Override
+	public List<?> findBrandRecord(Map<String, Object> maps, PageController pageController) {
+		return brandDao.findRecord(maps);
+	}
+
+	@Override
+	public Product findByID(int id) {
+		Map<String, Object> maps = new HashMap<>();
+		maps.put("id", id);
+		return (Product) findProductRecord(maps, null).get(0);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> findAll() {
+		return (List<Product>) findProductRecord(null, null);
+	}
+
+	@Override
+	public void addProduct(Product product, Img img) {
+		productDao.addRecord(product);
+		img.setProduct_id(product.getId());
+		imgDao.addRecord(img);
+	}
+
+	@Override
+	public String[] findbrandName() {
+		return brandDao.findBrandName(null);
+	}
+
+	@Override
+	public long findTotalCount() {
+		return productDao.findTotalCount();
+	}
+
+	@Override
+	public String[] findFeatureName() {
+
+		return featureDao.findFeatureName(null);
+	}
+
+	@Override
+	public String[] findTypeName() {
+		return typeDao.findTypeName(null);
+	}
+
+}

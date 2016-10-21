@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- (((description*, display-name*, icon*)) | distributable | context-param 
+	| filter | filter- mapping | listener | servlet | servlet-mapping | session-config 
+	| mime-mapping | welcome-file-list | error-page | jsp-config | security-constraint 
+	| login-config | security-role | ((env-entry*, ejb-ref*, ejb- local-ref*, 
+	((service-ref*)), resource-ref*, resource-env-ref*, message-destination-ref*, 
+	persistence- context-ref*, persistence-unit-ref*, post-construct*, pre-destroy*)) 
+	| message-destination | locale- encoding-mapping-list)* -->
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>egou</display-name>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<!-- 解析spring配置文件：主要配置javabean 默认会解析 /WEB-INF/applicationContext.xml -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:/application_context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 配置springMVC -->
+	<servlet>
+		<servlet-name>saleman</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:springmvc_back.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>buyer</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:springmvc_front.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>saleman</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>buyer</servlet-name>
+		<url-pattern>*.thtml</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

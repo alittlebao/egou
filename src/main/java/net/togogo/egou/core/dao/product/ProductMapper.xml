@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 给映射文件声明一个名称空间 -->
+<mapper namespace="net.togogo.egou.core.dao.product.ProductDao">
+
+	<select id="findRecord" parameterType="java.util.Map"
+		resultType="net.togogo.egou.core.domain.product.Product">
+		select * from bbs_product
+		<where>
+			<if test="id!=null">
+				and id=#{id}
+			</if>
+			<if test="no!=null">
+				and no=#{no}
+			</if>
+			<if test="name!=null">
+				and name=#{name}
+			</if>
+			<if test="weight!=null">
+				and weight=#{weight}
+			</if>
+			<if test="is_new!=null">
+				and is_new=#{is_new}
+			</if>
+			<if test="is_hot!=null">
+				and is_hot=#{is_hot}
+			</if>
+			<if test="is_commend!=null">
+				and is_commend=#{is_commend}
+			</if>
+			<if test="create_time!=null">
+				and create_time=#{create_time}
+			</if>
+			<if test="create_user_id!=null">
+				and create_user_id=#{create_user_id}
+			</if>
+			<if test="check_time!=null">
+				and check_time=#{check_time}
+			</if>
+			<if test="check_user_id!=null">
+				and check_user_id=#{check_user_id}
+			</if>
+			<if test="is_show!=null">
+				and is_show=#{is_show}
+			</if>
+			<if test="is_del!=null">
+				and is_del=#{is_del}
+			</if>
+			<if test="type_id!=null">
+				and type_id=#{type_id}
+			</if>
+			<if test="brand_id!=null">
+				and brand_id=#{brand_id}
+			</if>
+			<if test="keywords!=null">
+				and keywords=#{keywords}
+			</if>
+			<if test="sales!=null">
+				and sales=#{sales}
+			</if>
+			<if test="description!=null">
+				and description=#{description}
+			</if>
+			<if test="package_list!=null">
+				and package_list=#{package_list}
+			</if>
+			<if test="feature!=null">
+				and feature=#{feature}
+			</if>
+			<if test="color!=null">
+				and color=#{color}
+			</if>
+			<if test="size!=null">
+				and size=#{size}
+			</if>
+		</where>
+			<if test="startRecord!=null">
+				limit #{startRecord},#{record}
+			</if>
+	</select>
+
+	<insert id="addRecord" parameterType="net.togogo.egou.core.domain.product.Product"  useGeneratedKeys="true" keyProperty="id">
+		insert into
+		bbs_product(no,name,weight,is_new,is_hot,is_commend,create_time,create_user_id,
+		check_time,check_user_id,is_show,is_del,type_id,brand_id,keywords,sales,description,package_list,
+		feature,color,size)values(#{no},#{name},#{weight},#{is_new},#{is_hot},#{is_commend},#{create_time},
+		#{create_user_id},#{check_time},#{check_user_id},#{is_show},#{is_del},#{type_id},#{brand_id},#{keywords},#{sales},
+		#{description},#{package_list},#{feature},#{color},#{size})
+	</insert>
+	
+	<select id="findTotalCount"
+		resultType="long">
+		select count(*) from bbs_product
+	</select>
+
+</mapper>

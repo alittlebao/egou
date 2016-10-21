@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 给映射文件声明一个名称空间 -->
+<mapper namespace="net.togogo.egou.core.dao.product.ImgDao">
+
+	<select id="findRecord" parameterType="java.util.Map"
+		resultType="net.togogo.egou.core.domain.product.Img">
+		select * from bbs_img
+		<where>
+			<if test="id!=null">
+				and id=#{id}
+			</if>
+			<if test="product_id!=null">
+				and product_id=#{product_id}
+			</if>
+			<if test="url!=null">
+				and url=#{url}
+			</if>
+			<if test="is_def!=null">
+				and is_def=#{is_def}
+			</if>
+		</where>
+	</select>
+
+	<insert id="addRecord" parameterType="net.togogo.egou.core.domain.product.Img">
+		insert into
+		bbs_img(product_id,url,is_def)values(#{product_id},#{url},#{is_def})
+	</insert>
+
+</mapper>

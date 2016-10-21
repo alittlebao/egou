@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 给映射文件声明一个名称空间 -->
+<mapper namespace="net.togogo.egou.core.dao.type.TypeDao">
+
+	<select id="findRecord" parameterType="java.util.Map"
+		resultType="net.togogo.egou.core.domain.Type">
+		select * from bbs_type
+		<where>
+			<if test="id!=null">
+				and id=#{id}
+			</if>
+			<if test="name!=null">
+				and name=#{name}
+			</if>
+			<if test="parent_id!=null">
+				and parent_id=#{parent_id}
+			</if>
+			<if test="note!=null">
+				and note=#{note}
+			</if>
+			<if test="is_display!=null">
+				and is_display=#{is_display}
+			</if>
+		</where>
+	</select>
+	<select id="findTypeName" parameterType="java.util.Properties"
+		resultType="java.lang.String">
+		select name from bbs_type
+	</select>
+
+	<insert id="addRecord" parameterType="net.togogo.egou.core.domain.product.Product"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		bbs_product(name,parent_id,note,is_display)values(#{name},#{parent_id},#{note},#{is_display})
+	</insert>
+
+</mapper>
